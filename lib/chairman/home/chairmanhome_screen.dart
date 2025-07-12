@@ -68,7 +68,7 @@ class _ChairmanhomeScreenState extends State<ChairmanhomeScreen>
     }
     _subscriptions.clear();
     
-    // Dispose animation controller
+    // Dispose animation controllers
     _floatingController.dispose();
     super.dispose();
   }
