@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1093491328239",
+    "project_id": "hysun-solar-1d338",
+    "storage_bucket": "hysun-solar-1d338.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093491328239:android:a99a88e95e823f15a0471a",
+        "android_client_info": {
+          "package_name": "com.example.hyson_security"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbbN9TiHUnacNrNm_IcfwszBxE6tBoOCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093491328239:android:415bbc9807bc0faea0471a",
+        "android_client_info": {
+          "package_name": "com.example.hysun_security_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbbN9TiHUnacNrNm_IcfwszBxE6tBoOCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
