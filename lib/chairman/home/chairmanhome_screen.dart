@@ -41,6 +41,7 @@ class _ChairmanhomeScreenState extends State<ChairmanhomeScreen>
   @override
   void initState() {
     super.initState();
+    // Managing all states of the screen
     _initializeAnimations();
     _fetchCounts();
   }
