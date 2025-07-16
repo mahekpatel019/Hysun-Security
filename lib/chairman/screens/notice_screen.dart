@@ -1,10 +1,5 @@
-// lib/notice/notice_screen.dart (UPDATED)
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
 
 class NoticeScreen extends StatefulWidget {
   const NoticeScreen({super.key});
@@ -16,79 +11,11 @@ class NoticeScreen extends StatefulWidget {
 class _NoticeScreenState extends State<NoticeScreen> {
   final TextEditingController _noticeController = TextEditingController();
   final TextEditingController _noticeNameController = TextEditingController();
-
-  // This will be initialized after fetching chairmanId
-  late CollectionReference _noticesCollection;
-  String? _chairmanId; // To store the chairman's ID
-
-  @override
-  void initState() {
-    super.initState();
-    _loadChairmanIdAndInitializeFirestore();
-  }
-
-  // Load the chairmanId from SharedPreferences and then initialize Firestore collection
-  Future<void> _loadChairmanIdAndInitializeFirestore() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? id = prefs.getString('userId'); // Chairman's userId is their own ID
-
-    if (id == null || id.isEmpty) {
-      // Handle case where chairmanId is not found (e.g., not logged in as chairman)
-      // You might want to show an error or navigate back to login.
-      debugPrint('Error: Chairman ID not found in SharedPreferences.');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text(
-                  'Error: Chairman ID not found. Please log in as Chairman.')),
-        );
-        // Optionally, navigate back or show an error screen
-        // Get.offAll(() => const RoleSelectionScreen());
-      }
-      return;
-    }
-
-    setState(() {
-      _chairmanId = id;
-      // Initialize the collection reference with the chairman's ID
-      _noticesCollection = FirebaseFirestore.instance
-          .collection('users')
-          .doc(_chairmanId)
-          .collection('notices');
-    });
-  }
+  final CollectionReference _noticesCollection =
+      FirebaseFirestore.instance.collection('notices');
 
   @override
   Widget build(BuildContext context) {
-    // Show a loading indicator if chairmanId is not yet loaded
-    if (_chairmanId == null) {
-      return Scaffold(
-        appBar: AppBar(
-          foregroundColor: Colors.white,
-          title: const Text(
-            'Notice Board',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          backgroundColor: Colors.green.shade600,
-          elevation: 0,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(20),
-            ),
-          ),
-        ),
-        backgroundColor: Colors.green.shade50,
-        body: Center(
-          child: CircularProgressIndicator(
-            color: Colors.green.shade600,
-          ),
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,
@@ -112,7 +39,6 @@ class _NoticeScreenState extends State<NoticeScreen> {
         children: [
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              // Use the dynamically initialized _noticesCollection
               stream: _noticesCollection
                   .orderBy('timestamp', descending: true)
                   .snapshots(),
@@ -347,14 +273,6 @@ class _NoticeScreenState extends State<NoticeScreen> {
                 const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: () {
-                    if (_noticeNameController.text.isEmpty ||
-                        _noticeController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Please fill all notice fields.')),
-                      );
-                      return;
-                    }
                     if (doc != null) {
                       _updateNotice(doc.id);
                     } else {
@@ -393,73 +311,31 @@ class _NoticeScreenState extends State<NoticeScreen> {
   }
 
   Future<void> _addNotice() async {
-    if (_chairmanId == null) {
-      debugPrint('Error: Chairman ID is null. Cannot add notice.');
-      return;
-    }
-    try {
-      await _noticesCollection.add({
-        'name': _noticeNameController.text,
-        'notice': _noticeController.text,
-        'timestamp': FieldValue.serverTimestamp(),
-        'chairmanId': _chairmanId, // Link notice to the chairman
-      });
-      _noticeController.clear();
-      _noticeNameController.clear();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Notice added successfully!')),
-      );
-    } catch (e) {
-      debugPrint('Error adding notice: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to add notice: $e')),
-      );
-    }
+    await _noticesCollection.add({
+      'name': _noticeNameController.text,
+      'notice': _noticeController.text,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+
+    _noticeController.clear();
+    _noticeNameController.clear();
   }
 
   Future<void> _updateNotice(String id) async {
-    if (_chairmanId == null) {
-      debugPrint('Error: Chairman ID is null. Cannot update notice.');
-      return;
-    }
-    try {
-      await _noticesCollection.doc(id).update({
-        'name': _noticeNameController.text,
-        'notice': _noticeController.text,
-        // No need to update timestamp unless explicitly desired
-      });
-      _noticeController.clear();
-      _noticeNameController.clear();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Notice updated successfully!')),
-      );
-    } catch (e) {
-      debugPrint('Error updating notice: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update notice: $e')),
-      );
-    }
+    await _noticesCollection.doc(id).update({
+      'name': _noticeNameController.text,
+      'notice': _noticeController.text,
+    });
+
+    _noticeController.clear();
+    _noticeNameController.clear();
   }
 
   Future<void> _deleteNotice(String id) async {
-    if (_chairmanId == null) {
-      debugPrint('Error: Chairman ID is null. Cannot delete notice.');
-      return;
-    }
-    try {
-      await _noticesCollection.doc(id).delete();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Notice deleted successfully!')),
-      );
-    } catch (e) {
-      debugPrint('Error deleting notice: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to delete notice: $e')),
-      );
-    }
+    await _noticesCollection.doc(id).delete();
   }
 
   String _formatDate(DateTime timestamp) {
-    return DateFormat('dd/MM/yyyy hh:mm a').format(timestamp);
+    return '${timestamp.day}/${timestamp.month}/${timestamp.year} ${timestamp.hour > 12 ? timestamp.hour - 12 : timestamp.hour}:${timestamp.minute.toString().padLeft(2, '0')} ${timestamp.hour >= 12 ? 'PM' : 'AM'}';
   }
 }
