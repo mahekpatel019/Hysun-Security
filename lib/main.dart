@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: GoogleFonts.poppins().fontFamily,
       ),
-      // routerConfig: goRouter
       home: const SplashScreen(),
     );
   }
