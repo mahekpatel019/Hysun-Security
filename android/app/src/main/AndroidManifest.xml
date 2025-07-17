@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
-        android:label="hysun_security_2"
+        android:label="Hysun Security"
         android:icon="@mipmap/ic_launcher"
         android:name="${applicationName}">
 
