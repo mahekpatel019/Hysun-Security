@@ -44,6 +44,11 @@ class _MemberHomeScreenState extends State<MemberHomeScreen>
     super.initState();
     initNotifications();
     loadMemberData();
+    saveTokenToFirestore();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      showNotification(
+          message.notification?.title ?? '', message.notification?.body ?? '');
+    });
 
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 300),
@@ -55,6 +60,17 @@ class _MemberHomeScreenState extends State<MemberHomeScreen>
     _animationController.forward();
     FirebaseMessaging.instance.requestPermission();
     listenForNewNotices();
+  }
+
+  void saveTokenToFirestore() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    final memberDoc = await membersCollection.doc(memberId).get();
+    if (token != null) {
+      await FirebaseFirestore.instance
+          .collection('members') // or your member collection
+          .doc(memberDoc.id) // replace with logged in user ID
+          .update({'fcmToken': token});
+    }
   }
 
   void listenForNewNotices() {
