@@ -10,7 +10,7 @@ import 'package:hysun_security_2/firebase_options.dart';
 import 'package:hysun_security_2/notification.dart';
 // import 'package:hysun_security_2/routes/routes.dart';
 import 'package:hysun_security_2/splash/splash_screen.dart';
-// import 'package:hysun_security_2/splash/splash_screen.dart'
+// import 'package:hysun_security_2/splash/splash_screen.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
