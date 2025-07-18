@@ -14,7 +14,7 @@ import 'package:hysun_security_2/splash/splash_screen.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  // You can show local notification here too
+  // You can show local notification here to
   showNotification(message.notification?.title ?? '', message.notification?.body ?? '');
 }
 
