@@ -68,7 +68,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen>
     if (token != null) {
       await FirebaseFirestore.instance
           .collection('members') // or your member collection
-          .doc(memberDoc.id) // replace with logged in user ID
+          .doc(memberDoc.id) // replace with logged in user I
           .update({'fcmToken': token});
     }
   }
