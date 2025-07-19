@@ -44,7 +44,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen>
     super.initState();
     initNotifications();
     loadMemberData();
-    // saveTokenToFirestore();
+    saveTokenToFirestore();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       showNotification(
           message.notification?.title ?? '', message.notification?.body ?? '');
@@ -62,16 +62,16 @@ class _MemberHomeScreenState extends State<MemberHomeScreen>
     listenForNewNotices();
   }
 
-  // void saveTokenToFirestore() async {
-  //   String? token = await FirebaseMessaging.instance.getToken();
-  //   final memberDoc = await membersCollection.doc(memberId).get();
-  //   if (token != null) {
-  //     await FirebaseFirestore.instance
-  //         .collection('members') // or your member collection
-  //         .doc(memberDoc.id) // replace with logged in user ID
-  //         .update({'fcmToken': token});
-  //   }
-  // }
+  void saveTokenToFirestore() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    final memberDoc = await membersCollection.doc(memberId).get();
+    if (token != null) {
+      await FirebaseFirestore.instance
+          .collection('members') // or your member collection
+          .doc(memberDoc.id) // replace with logged in user ID
+          .update({'fcmToken': token});
+    }
+  }
 
   void listenForNewNotices() {
     _noticeSubscription = FirebaseFirestore.instance
