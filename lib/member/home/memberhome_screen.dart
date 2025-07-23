@@ -31,7 +31,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen>
 
   String? memberId;
   String? memberName;
-  bool _isExpanded = false;
+  bool _isExpanded = true;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
