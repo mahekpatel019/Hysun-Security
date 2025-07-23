@@ -23,7 +23,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
           'Notice Board',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
         backgroundColor: Colors.green.shade600,
