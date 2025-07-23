@@ -8,7 +8,7 @@ import 'package:hysun_security_2/notification.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
-// ignore: must_be_immutable
+// ignore: must_be_imm
 class MemberHomeScreen extends StatefulWidget {
   PreferredSizeWidget appBar;
 
