@@ -67,8 +67,6 @@ class _NoticeScreenState extends State<NoticeScreen> {
                             fontSize: 18,
                             color: Colors.green.shade600,
                             fontWeight: FontWeight.w500,
-                            height: 20,
-                            backgroundColor: Colors.black,
                           ),
                         ),
                       ],
