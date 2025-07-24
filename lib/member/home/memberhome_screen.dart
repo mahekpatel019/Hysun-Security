@@ -210,6 +210,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen>
             children: [
               CircleAvatar(
                 backgroundColor: Colors.white,
+                foregroundColor: Colors.white,
                 radius: isTablet ? 30 : 24,
                 child: Icon(
                   Icons.person,
@@ -225,6 +226,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen>
                     Text(
                       'Welcome Back!',
                       style: TextStyle(
+                        height: 10.0,
                         color: Colors.white,
                         fontSize: isTablet ? 18 : 16,
                         fontWeight: FontWeight.w500,
@@ -233,6 +235,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen>
                     Text(
                       memberName ?? 'Loading...',
                       style: TextStyle(
+                        height: 10.0,
                         color: Colors.white,
                         fontSize: isTablet ? 24 : 20,
                         fontWeight: FontWeight.bold,
