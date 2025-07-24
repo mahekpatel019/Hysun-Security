@@ -59,6 +59,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                           Icons.notifications_off_outlined,
                           size: 60,
                           color: Colors.green.shade300,
+                          weight: 60,
                         ),
                         const SizedBox(height: 16),
                         Text(
